@@ -60,12 +60,19 @@ const EventList = () => {
             ))}
           </div>
           <div className="Pagination">
-            {[...Array(pageNumber || 0)].map((_, n) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <a key={n} href="#events" onClick={() => setCurrentPage(n + 1)}>
+          {[...Array(pageNumber || 0)].map((_, n) => {
+            const eventId = filteredEvents[n]?.id;
+            return (
+              <a
+              // Debug de la key pour qu'elle soit unique
+                key={eventId}
+                href="#events"
+                onClick={() => setCurrentPage(n + 1)}
+              >
                 {n + 1}
               </a>
-            ))}
+            );
+            })}
           </div>
         </>
       )}
