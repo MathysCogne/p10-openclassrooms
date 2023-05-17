@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState } from "react";
 import PropTypes from "prop-types";
 
@@ -15,29 +13,66 @@ const Select = ({
 }) => {
   const [value, setValue] = useState();
   const [collapsed, setCollapsed] = useState(true);
+
   const changeValue = (newValue) => {
     onChange();
     setValue(newValue);
     setCollapsed(newValue);
+    // alert(newValue); 
   };
+
+  const handleKeyPress = (e, newValue) => {
+    if (e.key === "Enter") {
+      changeValue(newValue);
+    }
+  };
+
+  const handleButtonClick = () => {
+    setCollapsed(!collapsed);
+  };
+
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">
       {label && <div className="label">{label}</div>}
       <div className="Select">
-        <ul>
-          <li className={collapsed ? "SelectTitle--show" : "SelectTitle--hide"}>
+        <ul role="listbox">
+          <li
+            className={collapsed ? "SelectTitle--show" : "SelectTitle--hide"}
+            role="option"
+            aria-selected={false}
+            tabIndex={0}
+            onClick={handleButtonClick}
+            onKeyDown={(e) => handleKeyPress(e, null)}
+          >
             {value || (!titleEmpty && "Toutes")}
           </li>
           {!collapsed && (
             <>
               {!titleEmpty && (
-                <li onClick={() => changeValue(null)}>
-                  <input defaultChecked={!value} name="selected" type="radio" />{" "}
+                <li
+                  onClick={() => changeValue(null)}
+                  onKeyDown={(e) => handleKeyPress(e, null)}
+                  role="option"
+                  aria-selected={value === null}
+                  tabIndex={0}
+                >
+                  <input
+                    defaultChecked={!value}
+                    name="selected"
+                    type="radio"
+                  />{" "}
                   Toutes
                 </li>
               )}
               {selection.map((s) => (
-                <li key={s} onClick={() => changeValue(s)}>
+                <li
+                  key={s}
+                  onClick={() => changeValue(s)}
+                  onKeyDown={(e) => handleKeyPress(e, s)}
+                  role="option"
+                  aria-selected={value === s}
+                  tabIndex={0}
+                >
                   <input
                     defaultChecked={value === s}
                     name="selected"
@@ -54,10 +89,7 @@ const Select = ({
           type="button"
           data-testid="collapse-button-testid"
           className={collapsed ? "open" : "close"}
-          onClick={(e) => {
-            e.preventDefault();
-            setCollapsed(!collapsed);
-          }}
+          onClick={handleButtonClick}
         >
           <Arrow />
         </button>
@@ -88,7 +120,7 @@ Select.propTypes = {
   titleEmpty: PropTypes.bool,
   label: PropTypes.string,
   type: PropTypes.string,
-}
+};
 
 Select.defaultProps = {
   onChange: () => null,
@@ -96,6 +128,6 @@ Select.defaultProps = {
   label: "",
   type: "normal",
   name: "select",
-}
+};
 
 export default Select;
