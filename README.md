@@ -9,7 +9,7 @@
 
 ![](https://forthebadge.com/images/badges/built-with-love.svg)
 
-https://mathyscogne.github.io/p10-openclassrooms/
+
 &nbsp;
 
 &nbsp;
