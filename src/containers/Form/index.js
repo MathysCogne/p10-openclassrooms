@@ -47,7 +47,8 @@ const Form = ({ onSuccess, onError }) => {
               titleEmpty
             />
             <Field placeholder="" label="Email" required/>
-            <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
+            {/* Ajout d'une redirection vers onSuccess() */}
+            <Button type={BUTTON_TYPES.SUBMIT} disabled={sending} onClick={() => onSuccess()}>
               {sending ? "En cours" : "Envoyer"}
             </Button>
           </div>
