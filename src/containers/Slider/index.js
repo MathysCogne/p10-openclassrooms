@@ -1,6 +1,8 @@
+import { v4 as uuidv4 } from 'uuid';
 import { useEffect, useState } from "react";
 import { useData } from "../../contexts/DataContext";
 import { getMonth } from "../../helpers/Date";
+
 
 import "./style.scss";
 
@@ -17,7 +19,7 @@ const Slider = () => {
       // Incrémentation l'index de 1
       // si index = byDateDesc.length alors reset grace au modulo
       // reste division = index du prochain slide
-      () => setIndex((index + 1) % byDateDesc.length), 5000
+      () => setIndex((index + 1) % (byDateDesc?.length || 0)), 5000
       );
   };
   useEffect(() => {
@@ -26,9 +28,9 @@ const Slider = () => {
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
-        <>
+        <div key={uuidv4()}>
           <div
-            key={event.title}
+            key={uuidv4()}
             className={`SlideCard SlideCard--${
               index === idx ? "display" : "hide"
             }`}
@@ -46,17 +48,18 @@ const Slider = () => {
             <div className="SlideCard__pagination">
               {byDateDesc.map((_, radioIdx) => (
                 <input
-                  key={`${event.id}`}
+                  key={uuidv4()}
                   type="radio"
                   name="radio-button"
                   // checked={idx === radioIdx}
                   // Remplacement par index, car ici idx est l'index de la boucle
                   checked={index === radioIdx}
+                  onChange={() => {}}
                 />
               ))}
             </div>
           </div>
-        </>
+        </div>
       ))}
     </div>
   );

@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { useState } from "react";
 import EventCard from "../../components/EventCard";
 import Select from "../../components/Select";
@@ -44,7 +45,7 @@ const EventList = () => {
           />
           <div id="events" className="ListContainer">
             {filteredEvents.map((event) => (
-              <Modal key={event.id} Content={<ModalEvent event={event} />}>
+              <Modal key={uuidv4()} Content={<ModalEvent event={event} />}>
                 {({ setIsOpened }) => (
                   <EventCard
                     onClick={() => setIsOpened(true)}
